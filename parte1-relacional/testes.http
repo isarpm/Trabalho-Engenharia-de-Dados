@@ -1,0 +1,64 @@
+### =================================================================##
+### 1. CRIAR UM NOVO CURSO (POST)
+### Envia os dados completos e válidos para os tipos ENUM do Postgres
+### =================================================================##
+POST http://localhost:8081/api/cursos
+Content-Type: application/json
+
+{
+  "nome": "Engenharia de Dados",
+  "grau": "Bacharelado",
+  "turno": "Vespertino",
+  "campus": "São Cristóvão",
+  "nivel": "Graduação"
+}
+
+###
+
+### =================================================================##
+### 2. LISTAR TODOS OS CURSOS (GET)
+### Retorna a lista de todos os cursos gravados (incluindo o que criaste)
+### =================================================================##
+GET http://localhost:8081/api/cursos
+Accept: application/json
+
+###
+
+### =================================================================##
+### 3. BUSCAR UM CURSO PELO ID (GET)
+### Substitui o número 6 pelo ID do curso que pretendes testar
+### =================================================================##
+GET http://localhost:8081/api/cursos/6
+Accept: application/json
+
+###
+
+### =================================================================##
+### 4. ATUALIZAR UM CURSO EXISTENTE (PUT)
+### Altera os dados do curso com o ID informado (ex: ID 6)
+### =================================================================##
+PUT http://localhost:8081/api/cursos/6
+Content-Type: application/json
+
+{
+  "nome": "Engenharia de Dados Avançada",
+  "grau": "Bacharelado",
+  "turno": "Vespertino",
+  "campus": "Campus Central",
+  "nivel": "Graduação"
+}
+
+###
+
+### =================================================================##
+### 5. APAGAR UM CURSO (DELETE)
+### Remove permanentemente o curso com o ID informado da base de dados
+### =================================================================##
+DELETE http://localhost:8081/api/cursos/6
+
+###
+
+### =================================================================##
+### ROTA DE TESTE EXTRA (Caso queiras verificar se o Spring está vivo)
+### =================================================================##
+GET http://localhost:8081/teste-vivo
