@@ -36,7 +36,7 @@ public class EstudanteController {
                 .orElseThrow(() -> new RuntimeException("Estudante não encontrado"));
         estudante.setMc(novosDados.getMc());
         estudante.setAnoIngresso(novosDados.getAnoIngresso());
-        // Caso queira atualizar o vínculo com o usuário, pode ser feito aqui:
+       //  Novos dados 
         if (novosDados.getUsuario() != null) {
             estudante.setUsuario(novosDados.getUsuario());
         }
