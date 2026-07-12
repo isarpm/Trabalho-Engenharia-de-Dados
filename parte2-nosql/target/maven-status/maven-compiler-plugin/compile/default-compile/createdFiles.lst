@@ -1,0 +1,14 @@
+com\example\cruded\model\Curso.class
+com\example\cruded\controller\CursoController.class
+com\example\cruded\repository\UsuarioRepository.class
+com\example\cruded\repository\VinculoRepository.class
+com\example\cruded\repository\CursoRepository.class
+com\example\cruded\config\MongoDBConfig.class
+com\example\cruded\repository\EstudanteRepository.class
+com\example\cruded\CrudNoSqlApplication.class
+com\example\cruded\model\Vinculo.class
+com\example\cruded\controller\UsuarioController.class
+com\example\cruded\controller\EstudanteController.class
+com\example\cruded\controller\VinculoController.class
+com\example\cruded\model\Estudante.class
+com\example\cruded\model\Usuario.class
