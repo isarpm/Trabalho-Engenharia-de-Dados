@@ -28,7 +28,7 @@ public class MongoDBConfig {
         // Criar índices para a coleção "cursos"
         criarIndicesCursos();
         
-        System.out.println("✅ Índices do MongoDB criados com sucesso!");
+        System.out.println("Índices do MongoDB criados com sucesso!");
     }
 
     private void criarIndicesUsuarios() {
