@@ -1,64 +1,139 @@
-### =================================================================##
-### 1. CRIAR UM NOVO CURSO (POST)
-### Envia os dados completos e válidos para os tipos ENUM do Postgres
-### =================================================================##
-POST http://localhost:8081/api/cursos
+### ====================================================================
+### TRABALHO PRÁTICO DE ENGENHARIA DE DADOS - PARTE 1 RELACIONAL
+### Arquivo de Testes HTTP
+### ====================================================================
+
+@baseUrl = http://localhost:8081/api
+
+
+### --------------------------------------------------------------------
+### PARTE A: OPERAÇÕES DE CURSO
+### --------------------------------------------------------------------
+
+### A.1 - Criar um Novo Curso (POST)
+# Executa um INSERT na tabela universidade.curso na AWS RDS.
+# O idCurso é auto-incremental e gerado pelo banco de dados.
+POST {{baseUrl}}/cursos
 Content-Type: application/json
 
 {
-  "nome": "Engenharia de Dados",
-  "grau": "Bacharelado",
-  "turno": "Vespertino",
+  "nome": "Engenharia de Computação",
+  "grau": "BACHARELADO",
+  "turno": "INTEGRAL",
   "campus": "São Cristóvão",
-  "nivel": "Graduação"
+  "nivel": "GRADUACAO"
 }
 
 ###
 
-### =================================================================##
-### 2. LISTAR TODOS OS CURSOS (GET)
-### Retorna a lista de todos os cursos gravados (incluindo o que criaste)
-### =================================================================##
-GET http://localhost:8081/api/cursos
+### A.2 - Listar Todos os Cursos (GET)
+# Executa um SELECT * FROM universidade.curso.
+GET {{baseUrl}}/cursos
 Accept: application/json
 
 ###
 
-### =================================================================##
-### 3. BUSCAR UM CURSO PELO ID (GET)
-### Substitui o número 6 pelo ID do curso que pretendes testar
-### =================================================================##
-GET http://localhost:8081/api/cursos/6
+### A.3 - Buscar Curso por ID (GET)
+# Substitua o '1' pelo ID real gerado se for diferente.
+GET {{baseUrl}}/cursos/1
 Accept: application/json
 
 ###
 
-### =================================================================##
-### 4. ATUALIZAR UM CURSO EXISTENTE (PUT)
-### Altera os dados do curso com o ID informado (ex: ID 6)
-### =================================================================##
-PUT http://localhost:8081/api/cursos/6
+### A.4 - Atualizar o Curso Criado (PUT)
+# Atualiza os dados cadastrados usando o ID específico.
+PUT {{baseUrl}}/cursos/1
 Content-Type: application/json
 
 {
-  "nome": "Engenharia de Dados Avançada",
-  "grau": "Bacharelado",
-  "turno": "Vespertino",
-  "campus": "Campus Central",
-  "nivel": "Graduação"
+  "nome": "Engenharia de Computação - Renovado",
+  "grau": "BACHARELADO",
+  "turno": "NOTURNO",
+  "campus": "São Cristóvão",
+  "nivel": "GRADUACAO"
+}
+
+
+### --------------------------------------------------------------------
+### PARTE B: OPERAÇÕES DE ESTUDANTE E USUÁRIO
+### --------------------------------------------------------------------
+
+### B.1 - Criar um Estudante com Usuário Vinculado (POST)
+# Fluxo em cascata: persiste o Usuário primeiro (Pai) e depois o Estudante (Filho).
+POST {{baseUrl}}/estudantes
+Content-Type: application/json
+
+{
+  "matEstudante": "2026101",
+  "mc": 8.5,
+  "anoIngresso": 2026,
+  "usuario": {
+    "cpf": 12345678901,
+    "nome": "Carlos Oliveira",
+    "dataNascimento": "2002-08-20",
+    "login": "carlos.oliveira",
+    "senha": "senhaSegura123"
+  }
 }
 
 ###
 
-### =================================================================##
-### 5. APAGAR UM CURSO (DELETE)
-### Remove permanentemente o curso com o ID informado da base de dados
-### =================================================================##
-DELETE http://localhost:8081/api/cursos/6
+### B.2 - Listar Todos os Estudantes (GET)
+
+GET {{baseUrl}}/estudantes
+Accept: application/json
+
+
+### --------------------------------------------------------------------
+### PARTE C: OPERAÇÕES DE VÍNCULO (TABELA PIVOT)
+### --------------------------------------------------------------------
+
+### C.1 - Criar um Vínculo de Matrícula (POST)
+# Amarra o Estudante existente e o Curso existente criando o relacionamento N:M.
+POST {{baseUrl}}/vinculos
+Content-Type: application/json
+
+{
+  "dataEntrada": "2026-03-02",
+  "status": "MATRICULADO",
+  "estudante": {
+    "matEstudante": "2026101"
+  },
+  "curso": {
+    "idCurso": 1
+  }
+}
 
 ###
 
-### =================================================================##
-### ROTA DE TESTE EXTRA (Caso queiras verificar se o Spring está vivo)
-### =================================================================##
-GET http://localhost:8081/teste-vivo
+### C.2 - Listar Todos os Vínculos Ativos (GET)
+# A visão mais completa exigida na Engenharia de Dados.
+GET {{baseUrl}}/vinculos
+Accept: application/json
+
+
+### --------------------------------------------------------------------
+### PARTE D: ROTEIRO DE DELEÇÃO (ORDEM SEGURA DE FK)
+### --------------------------------------------------------------------
+
+### D.1 - Deletar o Vínculo Primeiro
+# Evita erro de Foreign Key na tabela universidade.vinculo.
+DELETE {{baseUrl}}/vinculos/1
+
+###
+
+### D.2 - Deletar o Estudante Segundo
+# Remove o registro do estudante da tabela especialista (estudante).
+DELETE {{baseUrl}}/estudantes/2026101
+
+###
+
+### D.3 - Deletar o Usuário Terceiro
+# Remove os dados da tabela pai (usuario). Mude a URL caso seu controller seja diferente.
+DELETE {{baseUrl}}/usuarios/12345678901
+
+###
+
+### D.4 - Deletar o Curso Por Fim
+# Com todos os vínculos desfeitos, o curso pode ser removido sem violar nenhuma constraint.
+DELETE {{baseUrl}}/cursos/1
