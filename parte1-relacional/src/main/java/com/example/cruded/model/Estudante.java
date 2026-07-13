@@ -12,7 +12,7 @@ public class Estudante {
     @Column(name = "mat_estudante", length = 7)
     private String matEstudante;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "cpf", referencedColumnName = "cpf")
     private Usuario usuario;
 
