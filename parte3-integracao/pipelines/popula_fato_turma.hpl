@@ -608,6 +608,13 @@
       <file_required>N</file_required>
       <include_subfolders>N</include_subfolders>
     </file>
+    <file>
+      <name>${Internal.Pipeline.Filename.Directory}/../../docs/turmas</name>
+      <filemask>.*turmas-de-.*</filemask>
+      <exclude_filemask/>
+      <file_required>N</file_required>
+      <include_subfolders>N</include_subfolders>
+    </file>
     <filter>
       <filterfiletype>all_files</filterfiletype>
     </filter>
