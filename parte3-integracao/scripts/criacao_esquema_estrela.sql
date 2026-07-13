@@ -17,7 +17,7 @@ CREATE TABLE dw.dim_disciplina (
     codigo_disciplina VARCHAR(20) UNIQUE NOT NULL,
     nome_disciplina VARCHAR(150) NOT NULL,
     creditos_total INT NOT NULL,
-    codigo_departamento VARCHAR(100) 
+    codigo_departamento VARCHAR(20) 
 );
 
 CREATE TABLE dw.dim_semestres (
@@ -35,7 +35,7 @@ CREATE TABLE dw.fato_turma (
     id_professor INT REFERENCES dw.dim_professor(id_professor),
     id_disciplina INT REFERENCES dw.dim_disciplina(id_disciplina),
     id_departamento INT REFERENCES dw.dim_departamento(id_departamento),
-    id_semestre INT REFERENCES dw.dim_semestre(id_semestre),
+    id_semestre INT REFERENCES dw.dim_semestres(id_semestre),
     
     -- Métricas quantitativas 
     num_discentes_matricu INT NOT NULL DEFAULT 0,
